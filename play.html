@@ -28,6 +28,29 @@ button:active{opacity:.7}
   position:relative;
 }
 .square{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:clamp(27px,8vw,48px);cursor:pointer;position:relative}
+.piece{
+  display:block;
+  line-height:1;
+  font-size:clamp(32px,8vw,46px);
+  position:relative;
+  z-index:1;
+}
+
+.white-piece{
+  color:#fff;
+  -webkit-text-stroke:1px #26352c;
+  text-shadow:0 2px 3px #0009;
+}
+
+.black-piece{
+  color:#171717;
+  -webkit-text-stroke:.5px #eee3ca;
+  text-shadow:0 2px 2px #0006;
+}
+
+.piece.pawn{
+  font-size:0.78em;
+}
 .coord{
   position:absolute;
   display:block;
