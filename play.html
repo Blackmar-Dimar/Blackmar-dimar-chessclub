@@ -94,7 +94,7 @@ function render(){
       const square = f+r;
       const piece = game.get(square);
       const el = document.createElement("div");
-      const dark = (files.indexOf(f)+r)%2===0;
+      const dark = (files.indexOf(f)+Number(r))%2===0;
       el.className="square "+(dark?"dark":"light");
       el.dataset.square=square;
       if(piece) el.textContent=symbols[piece.color+piece.type];
