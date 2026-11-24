@@ -125,7 +125,7 @@ function render(){
       el.dataset.square=square;
      if(piece){
   const pieceEl=document.createElement("span");
-  pieceEl.className="piece "+(piece.color==="w"?"white-piece":"black-piece");
+  pieceEl.className="piece "+(piece.color==="w"?"white-piece":"black-piece")+(piece.type==="p"?" pawn":"");
   pieceEl.textContent=symbols[piece.color+piece.type];
   el.appendChild(pieceEl);
 }
