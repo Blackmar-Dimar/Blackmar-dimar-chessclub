@@ -98,6 +98,18 @@ function render(){
       el.className="square "+(dark?"dark":"light");
       el.dataset.square=square;
       if(piece) el.textContent=symbols[piece.color+piece.type];
+      if(f===files[0]){
+  const label=document.createElement("span");
+  label.className="coord rank";
+  label.textContent=r;
+  el.appendChild(label);
+}
+if(r===ranks[ranks.length-1]){
+  const label=document.createElement("span");
+  label.className="coord file";
+  label.textContent=f;
+  el.appendChild(label);
+}
       if(selected===square) el.classList.add("selected");
       if(selected && game.moves({square:selected,verbose:true}).some(m=>m.to===square))
         el.classList.add("target");
