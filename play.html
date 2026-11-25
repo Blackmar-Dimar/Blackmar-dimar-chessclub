@@ -5,20 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Blackmar-Dimar Chess Club — Play</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#101a16;color:#eee;font-family:Arial,sans-serif;text-align:center;padding:20px}
+
+body{
+  margin:0;
+  background:#101a16;
+  color:#eee;
+  font-family:Arial,sans-serif;
+  text-align:center;
+  padding:20px;
+}
+
 h1{color:#d8b66a;font-size:25px}
 .subtitle{color:#aaa;margin-bottom:20px}
-.panel{max-width:520px;margin:auto;background:#1c2a23;padding:18px;border-radius:14px}
-.controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:12px 0}
-select,button{padding:11px;border:0;border-radius:7px;font-size:14px}
+
+.panel{
+  max-width:520px;
+  margin:auto;
+  background:#1c2a23;
+  padding:18px;
+  border-radius:14px;
+}
+
+.controls{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin:12px 0;
+}
+
+select,button{
+  padding:11px;
+  border:0;
+  border-radius:7px;
+  font-size:14px;
+}
+
 select{background:#eee;color:#222}
 button{background:#c6a45d;color:#172019;font-weight:bold}
 button:active{opacity:.7}
+
 #board{
   width:min(calc(90vw - 40px),420px);
-  aspect-ratio:1 / 1;
+  aspect-ratio:1/1;
   margin:30px auto 36px;
   display:grid;
   grid-template-columns:repeat(8,minmax(0,1fr));
@@ -27,7 +59,16 @@ button:active{opacity:.7}
   position:relative;
   container-type:inline-size;
 }
-.square{aspect-ratio:1;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative}
+
+.square{
+  aspect-ratio:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  position:relative;
+}
+
 .piece-svg{
   display:block;
   width:100%;
@@ -35,41 +76,94 @@ button:active{opacity:.7}
   position:relative;
   z-index:1;
   overflow:visible;
-  --piece-fill:#fff;
-  --piece-outline:#171717;
-  --piece-accent:#171717;
-  --piece-cross-outline:#eee3ca;
-  --piece-highlight:#777;
+  --fill:#fff9ed;
+  --detail:#101010;
+  --shine:#fff;
 }
+
 .piece-svg.black{
-  --piece-fill:#171717;
-  --piece-outline:#eee3ca;
-  --piece-accent:#eee3ca;
-  --piece-cross-outline:#171717;
+  --fill:#151515;
+  --detail:#fff9ed;
+  --shine:#777;
 }
+
 .piece-svg.white{
-  --piece-fill:#fff;
-  --piece-outline:#171717;
-  --piece-accent:#171717;
-  --piece-cross-outline:#eee3ca;
+  --fill:#fff9ed;
+  --detail:#101010;
+  --shine:#fff;
 }
-.coord{position:absolute;display:block;font-family:Arial,sans-serif;font-size:10px;font-weight:600;line-height:1;color:#eee3ca;pointer-events:none;z-index:5}
-.coord.rank{left:-15px;top:50%;transform:translateY(-50%);width:10px;text-align:center}
-.coord.file{left:50%;bottom:-17px;transform:translateX(-50%)}
+
+.coord{
+  position:absolute;
+  display:block;
+  font-family:Arial,sans-serif;
+  font-size:10px;
+  font-weight:600;
+  line-height:1;
+  color:#eee3ca;
+  pointer-events:none;
+  z-index:5;
+}
+
+.coord.rank{
+  left:-15px;
+  top:50%;
+  transform:translateY(-50%);
+  width:10px;
+  text-align:center;
+}
+
+.coord.file{
+  left:50%;
+  bottom:-17px;
+  transform:translateX(-50%);
+}
+
 .light{background:#eee3ca;color:#222}
 .dark{background:#72916f;color:#222}
 .selected{background:#e5cf58!important}
-.target:after{content:"";position:absolute;width:23%;height:23%;border-radius:50%;background:#253c2c88}
-#status{color:#e4c77e;min-height:24px;font-weight:bold}
-#history{background:#111b16;padding:12px;border-radius:8px;text-align:left;min-height:45px;max-height:150px;overflow:auto;line-height:1.7}
-.small{font-size:12px;color:#aaa;margin-top:15px}
+
+.target:after{
+  content:"";
+  position:absolute;
+  width:23%;
+  height:23%;
+  border-radius:50%;
+  background:#253c2c88;
+}
+
+#status{
+  color:#e4c77e;
+  min-height:24px;
+  font-weight:bold;
+}
+
+#history{
+  background:#111b16;
+  padding:12px;
+  border-radius:8px;
+  text-align:left;
+  min-height:45px;
+  max-height:150px;
+  overflow:auto;
+  line-height:1.7;
+}
+
+.small{
+  font-size:12px;
+  color:#aaa;
+  margin-top:15px;
+}
 </style>
 </head>
+
 <body>
+
 <h1>BLACKMAR-DIMAR</h1>
 <div class="subtitle">Chess Club · Play against the computer</div>
 
 <div class="panel">
+
   <div class="controls">
     <select id="level">
       <option value="1">Начинающий</option>
@@ -78,6 +172,7 @@ button:active{opacity:.7}
       <option value="12">Сильный</option>
       <option value="15">Эксперт</option>
     </select>
+
     <select id="side">
       <option value="w">Играть белыми</option>
       <option value="b">Играть чёрными</option>
@@ -95,257 +190,803 @@ button:active{opacity:.7}
 
   <h3>История ходов</h3>
   <div id="history">Партия ещё не началась</div>
-  <div class="small">Компьютер использует шахматный движок Stockfish Online.</div>
+
+  <div class="small">
+    Компьютер использует шахматный движок Stockfish Online.
+  </div>
+
 </div>
 
-<!-- SVG-комплект шахматных фигур -->
-<svg aria-hidden="true" width="0" height="0" style="position:absolute;overflow:hidden">
+<!-- НАШ КОМПЛЕКТ SVG-ФИГУР -->
+
+<svg aria-hidden="true" width="0" height="0"
+     style="position:absolute;overflow:hidden">
+
 <defs>
 
-  <!-- Пешка -->
-  <symbol id="piece-p" viewBox="0 0 100 100">
-    <circle cx="50" cy="17" r="13.2" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2"/>
-    <path d="M44 30 C43 35 41 39 37 44 C34 48 30 54 28 61 L22 75 Q20 80 27 81 H73 Q80 80 78 75 L72 61 C70 54 66 48 63 44 C59 39 57 35 56 30 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2" stroke-linejoin="round"/>
-    <path d="M39 34 Q50 37 61 34 L64 39 Q50 42 36 39 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="2.5"/>
-    <path d="M35 42 Q50 45 65 42" fill="none" stroke="var(--piece-accent)" stroke-width="2.4" stroke-linecap="round"/>
-    <path d="M25 74 Q50 71 75 74 L79 81 Q80 85 74 86 H26 Q20 85 21 81 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.1"/>
-    <path d="M23 79 Q50 76 77 79" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M20 86 Q50 83 80 86 L82 92 Q82 96 76 96 H24 Q18 96 18 92 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2"/>
-    <path d="M23 90 Q50 88 77 90" fill="none" stroke="var(--piece-accent)" stroke-width="2.4" stroke-linecap="round"/>
-    <path d="M43 8 Q50 4 57 9" fill="none" stroke="var(--piece-highlight)" stroke-width="1.7" stroke-linecap="round" opacity=".55"/>
-  </symbol>
+<!-- ПЕШКА -->
 
-  <!-- Ладья -->
-  <symbol id="piece-r" viewBox="0 0 100 100">
-    <path d="M15 9 H31 V21 H40 V9 H60 V21 H69 V9 H85 V30 Q85 36 79 39 L74 75 H26 L21 39 Q15 36 15 30 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.5" stroke-linejoin="round"/>
-    <path d="M18 30 H82 M23 38 H77" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M29 43 H71 M27 54 H73 M26 65 H74" fill="none" stroke="var(--piece-accent)" stroke-width="2.1" stroke-linecap="round"/>
-    <path d="M38 43 V54 M62 43 V54 M31 54 V65 M50 54 V65 M69 54 V65" fill="none" stroke="var(--piece-accent)" stroke-width="1.8" stroke-linecap="round"/>
-    <path d="M25 74 Q50 70 75 74 L80 81 Q82 86 75 87 H25 Q18 86 20 81 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.4"/>
-    <path d="M22 80 Q50 76 78 80" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M16 88 Q50 84 84 88 L86 94 Q86 97 80 97 H20 Q14 97 14 94 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2"/>
-  </symbol>
+<symbol id="piece-p" viewBox="0 0 100 100">
 
-  <!-- Конь -->
-  <symbol id="piece-n" viewBox="0 0 100 100">
-    <path d="M22 82 Q24 73 31 65 Q36 59 35 52 L29 45 Q27 39 32 33 L39 25 L44 12 Q48 8 52 15 L56 25 Q68 24 75 35 Q83 48 77 63 Q73 72 72 82 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.5" stroke-linejoin="round"/>
-    <path d="M39 26 Q47 29 53 28 Q64 28 71 38 Q76 47 73 58" fill="none" stroke="var(--piece-highlight)" stroke-width="2" opacity=".55" stroke-linecap="round"/>
-    <path d="M31 43 Q39 46 47 43 L44 51 Q37 54 31 49 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="2.2"/>
-    <path d="M39 39 Q43 36 47 39" fill="none" stroke="var(--piece-outline)" stroke-width="2.2" stroke-linecap="round"/>
-    <circle cx="44" cy="35" r="2.5" fill="var(--piece-accent)"/>
-    <path d="M51 18 Q56 25 59 32 M58 29 L68 39 M62 40 L75 49 M64 52 L76 59 M63 64 L73 69" fill="none" stroke="var(--piece-accent)" stroke-width="3.2" stroke-linecap="round"/>
-    <path d="M23 81 Q50 77 77 81 L81 88 Q82 93 75 94 H25 Q18 93 19 88 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.4"/>
-    <path d="M22 86 Q50 82 78 86" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M18 93 H82 L84 97 H16 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="2.6"/>
-  </symbol>
+  <!-- Голова -->
+  <circle cx="50" cy="18" r="13"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="5"/>
 
-  <!-- Слон -->
-  <symbol id="piece-b" viewBox="0 0 100 100">
-    <circle cx="50" cy="11" r="7.5" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="2.4"/>
-    <path d="M50 20 C36 27 27 42 29 57 Q31 72 50 76 Q69 72 71 57 C73 42 64 27 50 20 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.5"/>
-    <path d="M55 30 L43 49 H53 L44 66 L64 43 H53 Z" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="1.2" stroke-linejoin="miter"/>
-    <path d="M37 35 Q32 49 37 61" fill="none" stroke="var(--piece-highlight)" stroke-width="2" opacity=".5" stroke-linecap="round"/>
-    <path d="M34 74 Q50 70 66 74 L72 81 Q73 86 66 87 H34 Q27 86 28 81 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.3"/>
-    <path d="M22 88 Q32 83 41 86 Q50 90 59 86 Q68 83 78 88 L84 93 Q85 97 77 97 H23 Q15 97 16 93 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.3"/>
-    <path d="M25 89 Q50 86 75 89" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
-  </symbol>
+  <path d="M42 10 Q50 5 58 11"
+    fill="none"
+    stroke="var(--shine)"
+    stroke-width="2"
+    stroke-linecap="round"/>
 
-  <!-- Ферзь -->
-  <symbol id="piece-q" viewBox="0 0 100 100">
-    <path d="M19 29 L30 61 Q50 69 70 61 L81 29 L66 48 L59 23 L50 49 L41 23 L34 48 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.4" stroke-linejoin="round"/>
-    <path d="M30 63 Q50 70 70 63 L74 73 Q50 81 26 73 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2"/>
-    <path d="M25 78 Q50 73 75 78 L79 87 Q50 95 21 87 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.3"/>
-    <path d="M27 81 Q50 77 73 81" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="19" cy="25" r="6.8" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="2.2"/>
-    <circle cx="40" cy="18" r="6.8" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="2.2"/>
-    <circle cx="50" cy="11" r="6.8" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="2.2"/>
-    <circle cx="60" cy="18" r="6.8" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="2.2"/>
-    <circle cx="81" cy="25" r="6.8" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="2.2"/>
-  </symbol>
+  <!-- Шейка -->
+  <path d="
+    M43 30
+    C43 37 39 43 34 49
+    C30 55 27 63 23 73
+    Q22 78 29 79
+    H71
+    Q78 78 77 73
+    C73 63 70 55 66 49
+    C61 43 57 37 57 30
+    Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="5"
+    stroke-linejoin="round"/>
 
-  <!-- Король -->
-  <symbol id="piece-k" viewBox="0 0 100 100">
-    <path d="M50 5 V31 M38 17 H62" fill="none" stroke="var(--piece-accent)" stroke-width="7.5" stroke-linecap="square"/>
-    <path d="M50 5 V31 M38 17 H62" fill="none" stroke="var(--piece-cross-outline)" stroke-width="1.25" stroke-linecap="square"/>
-    <path d="M50 32 C43 27 33 27 27 34 Q18 44 24 57 Q29 69 43 72 Q50 74 50 67 Q50 74 57 72 Q71 69 76 57 Q82 44 73 34 C67 27 57 27 50 32 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.5"/>
-    <path d="M29 73 Q50 78 71 73 L76 81 Q50 89 24 81 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.3"/>
-    <path d="M23 87 Q50 82 77 87 L81 94 Q50 99 19 94 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.3"/>
-    <path d="M27 89 Q50 85 73 89" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
-  </symbol>
+  <!-- Два кольца шейки -->
+  <path d="M38 34 Q50 38 62 34"
+    fill="none"
+    stroke="#080808"
+    stroke-width="5"
+    stroke-linecap="round"/>
+
+  <path d="M37 41 Q50 45 63 41"
+    fill="none"
+    stroke="var(--detail)"
+    stroke-width="3"
+    stroke-linecap="round"/>
+
+  <!-- Верхняя кайма основания -->
+  <path d="
+    M25 72
+    Q50 67 75 72
+    L80 79
+    Q81 84 74 85
+    H26
+    Q19 84 20 79
+    Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="5"
+    stroke-linejoin="round"/>
+
+  <path d="M23 77 Q50 73 77 77"
+    fill="none"
+    stroke="var(--detail)"
+    stroke-width="3"
+    stroke-linecap="round"/>
+
+  <!-- Нижняя платформа -->
+  <path d="
+    M20 85
+    Q50 81 80 85
+    L83 92
+    Q83 96 76 96
+    H24
+    Q17 96 17 92
+    Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="5"
+    stroke-linejoin="round"/>
+
+  <path d="M22 90 Q50 87 78 90"
+    fill="none"
+    stroke="var(--detail)"
+    stroke-width="3"
+    stroke-linecap="round"/>
+
+</symbol>
+
+
+<!-- ЛАДЬЯ -->
+
+<symbol id="piece-r" viewBox="0 0 100 100">
+
+  <!-- Зубцы -->
+  <path d="
+    M13 9
+    H30 V22
+    H40 V9
+    H60 V22
+    H70 V9
+    H87 V30
+    Q87 36 80 39
+    L76 75
+    H24
+    L20 39
+    Q13 36 13 30
+    Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="5"
+    stroke-linejoin="round"/>
+
+  <!-- Контрастная внутренняя линия -->
+  <path d="M17 30 H83"
+    fill="none"
+    stroke="var(--detail)"
+    stroke-width="3"/>
+
+  <!-- Кирпичная кладка -->
+  <path d="
+    M26 42 H74
+    M24 51 H76
+    M25 61 H75
+    M29 70 H71
+    M39 42 V51
+    M62 42 V51
+    M31 51 V61
+    M50 51 V61
+    M69 51 V61
+    M40 61 V70
+    M60 61 V70"
+    fill="none"
+    stroke="var(--detail)"
+    stroke-width="2.3"
+    stroke-linecap="round"
+    stroke-linejoin="round"/>
+
+  <!-- Основание -->
+  <path d="
+    M23 74
+    Q50 69 77 74
+    L82 82
+    Q83 87 75 88
+    H25
+    Q17 87 18 82
+    Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="5"/>
+
+  <path d="M21 80 Q50 76 79 80"
+    fill="none"
+    stroke="var(--detail)"
+    stroke-width="3"/>
+
+  <path d="
+    M15 88
+    Q50 83 85 88
+    L87 95
+    Q87 98 80 98
+    H20
+    Q13 98 13 95
+    Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="4"/>
+
+</symbol>
+
+
+<!-- КОНЬ -->
+
+<symbol id="piece-n" viewBox="0 0 100 100">
+
+  <!-- Основной силуэт -->
+  <path d="
+    M22 82
+    Q24 72 32 64
+    Q39 56 34 49
+    Q27 43 30 35
+    L38 25
+    L43 11
+    Q47 5 52 14
+    L57 25
+    Q70 23 78 37
+    Q85 50 78 66
+    Q74 74 74 82
+    Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="5"
+    stroke-linejoin="round"/>
+
+  <!-- Ухо -->
+  <path d="M43 13 Q46 2 52 14 L54 26"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="4"/>
+
+  <!-- Морда -->
+  <path d="
+    M31 39
+    Q39 42 48 39
+    L45 49
+    Q37 54 31 47
+    Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="3"/>
+
+  <!-- Глаз -->
+  <path d="M40 35 Q44 32 48 35"
+    fill="none"
+    stroke="#080808"
+    stroke-width="3"
+    stroke-linecap="round"/>
+
+  <circle cx="44" cy="35" r="2.3"
+    fill="#080808"/>
+
+  <!-- Грива -->
+  <path d="
+    M54 25
+    Q64 29 70 38
+    L62 35
+    M64 38
+    Q75 43 79 51
+    L69 48
+    M68 51
+    Q78 57 77 65
+    L68 61
+    M66 65
+    Q73 70 73 76"
+    fill="none"
+    stroke="var(--detail)"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-linejoin="round"/>
+
+  <!-- Основание -->
+  <path d="
+    M23 81
+    Q50 76 77 81
+    L82 89
+    Q83 94 75 95
+    H25
+    Q17 94 18 89
+    Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="5"/>
+
+  <path d="M21 87 Q50 83 79 87"
+    fill="none"
+    stroke="var(--detail)"
+    stroke-width="3"/>
+
+  <path d="M17 94 H83 L85 98 H15 Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="3"/>
+
+</symbol>
+
+
+<!-- СЛОН -->
+
+<symbol id="piece-b" viewBox="0 0 100 100">
+
+  <!-- Шарик -->
+  <circle cx="50" cy="11" r="8"
+    fill="var(--detail)"
+    stroke="#080808"
+    stroke-width="3"/>
+
+  <!-- Основная шапка -->
+  <path d="
+    M50 20
+    C35 27 27 43 29 58
+    Q31 74 50 76
+    Q69 74 71 58
+    C73 43 65 27 50 20
+    Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="5"/>
+
+  <!-- Молния -->
+  <path d="
+    M56 29
+    L43 49
+    H53
+    L43 67
+    L64 43
+    H53
+    Z"
+    fill="var(--detail)"
+    stroke="#080808"
+    stroke-width="1.5"
+    stroke-linejoin="round"/>
+
+  <!-- Основание шапки -->
+  <path d="
+    M34 74
+    Q50 70 66 74
+    L73 81
+    Q74 87 66 88
+    H34
+    Q26 87 27 81
+    Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="5"/>
+
+  <!-- Платформа -->
+  <path d="
+    M22 89
+    Q32 83 42 87
+    Q50 91 58 87
+    Q68 83 78 89
+    L84 94
+    Q85 98 77 98
+    H23
+    Q15 98 16 94
+    Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="5"/>
+
+</symbol>
+
+
+<!-- ФЕРЗЬ -->
+
+<symbol id="piece-q" viewBox="0 0 100 100">
+
+  <!-- Корона -->
+  <path d="
+    M17 29
+    L30 62
+    Q50 70 70 62
+    L83 29
+    L67 49
+    L60 21
+    L50 49
+    L40 21
+    L33 49
+    Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="5"
+    stroke-linejoin="round"/>
+
+  <!-- Пять шариков -->
+  <circle cx="17" cy="25" r="7"
+    fill="var(--detail)" stroke="#080808" stroke-width="3"/>
+  <circle cx="40" cy="17" r="7"
+    fill="var(--detail)" stroke="#080808" stroke-width="3"/>
+  <circle cx="50" cy="10" r="7"
+    fill="var(--detail)" stroke="#080808" stroke-width="3"/>
+  <circle cx="60" cy="17" r="7"
+    fill="var(--detail)" stroke="#080808" stroke-width="3"/>
+  <circle cx="83" cy="25" r="7"
+    fill="var(--detail)" stroke="#080808" stroke-width="3"/>
+
+  <!-- Обод короны -->
+  <path d="
+    M28 64
+    Q50 71 72 64
+    L76 75
+    Q50 83 24 75
+    Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="5"/>
+
+  <path d="M27 72 Q50 78 73 72"
+    fill="none"
+    stroke="var(--detail)"
+    stroke-width="3"/>
+
+  <!-- Основание -->
+  <path d="
+    M23 81
+    Q50 76 77 81
+    L81 91
+    Q50 98 19 91
+    Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="5"/>
+
+</symbol>
+
+
+<!-- КОРОЛЬ -->
+
+<symbol id="piece-k" viewBox="0 0 100 100">
+
+  <!-- Крест -->
+  <path d="M50 5 V32 M39 17 H61"
+    fill="none"
+    stroke="var(--detail)"
+    stroke-width="7"
+    stroke-linecap="square"/>
+
+  <path d="M50 5 V32 M39 17 H61"
+    fill="none"
+    stroke="#080808"
+    stroke-width="1.3"
+    stroke-linecap="square"/>
+
+  <!-- Корона и корпус -->
+  <path d="
+    M50 32
+    C39 25 27 29 23 41
+    Q18 55 29 67
+    Q39 77 50 68
+    Q61 77 71 67
+    Q82 55 77 41
+    C73 29 61 25 50 32
+    Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="5"
+    stroke-linejoin="round"/>
+
+  <!-- Широкий воротник -->
+  <path d="
+    M27 71
+    Q50 79 73 71
+    L79 82
+    Q50 91 21 82
+    Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="5"/>
+
+  <path d="M25 79 Q50 86 75 79"
+    fill="none"
+    stroke="var(--detail)"
+    stroke-width="3"/>
+
+  <!-- Нижняя платформа -->
+  <path d="
+    M19 88
+    Q50 82 81 88
+    L84 95
+    Q50 100 16 95
+    Z"
+    fill="var(--fill)"
+    stroke="#080808"
+    stroke-width="5"/>
+
+</symbol>
+
 </defs>
 </svg>
 
+
 <script>
+
 const game = new Chess();
+
 const board = document.getElementById("board");
 const statusBox = document.getElementById("status");
 const historyBox = document.getElementById("history");
+
 const SVG_NS = "http://www.w3.org/2000/svg";
 
 let selected = null;
 let flipped = false;
 let thinking = false;
 
+
 function createPieceElement(piece){
+
   const svg = document.createElementNS(SVG_NS,"svg");
+
   svg.setAttribute("viewBox","0 0 100 100");
-  svg.setAttribute("class","piece-svg "+(piece.color==="w"?"white":"black"));
+
+  svg.setAttribute(
+    "class",
+    "piece-svg "+(piece.color==="w"?"white":"black")
+  );
+
   svg.setAttribute("role","img");
-  svg.setAttribute("aria-label",piece.color==="w"?"Белая фигура":"Чёрная фигура");
+
   const use = document.createElementNS(SVG_NS,"use");
+
   use.setAttribute("href","#piece-"+piece.type);
+
   svg.appendChild(use);
+
   return svg;
 }
 
+
 function render(){
+
   board.innerHTML="";
+
   const files = flipped ? "hgfedcba" : "abcdefgh";
   const ranks = flipped ? "12345678" : "87654321";
 
   for(let r of ranks){
+
     for(let f of files){
+
       const square = f+r;
       const piece = game.get(square);
+
       const el = document.createElement("div");
+
       const dark = (files.indexOf(f)+Number(r))%2===0;
+
       el.className="square "+(dark?"dark":"light");
+
       el.dataset.square=square;
-      if(piece) el.appendChild(createPieceElement(piece));
+
+      if(piece){
+        el.appendChild(createPieceElement(piece));
+      }
 
       if(f===files[0]){
+
         const label=document.createElement("span");
+
         label.className="coord rank";
         label.textContent=r;
+
         el.appendChild(label);
       }
+
       if(r===ranks[ranks.length-1]){
+
         const label=document.createElement("span");
+
         label.className="coord file";
         label.textContent=f;
+
         el.appendChild(label);
       }
-      if(selected===square) el.classList.add("selected");
-      if(selected && game.moves({square:selected,verbose:true}).some(m=>m.to===square))
+
+      if(selected===square){
+        el.classList.add("selected");
+      }
+
+      if(selected && game.moves({square:selected,verbose:true}).some(m=>m.to===square)){
         el.classList.add("target");
+      }
+
       el.onclick=()=>clickSquare(square);
+
       board.appendChild(el);
     }
   }
+
   updateStatus();
   updateHistory();
 }
 
+
 function clickSquare(square){
+
   if(thinking || game.game_over()) return;
+
   const human=document.getElementById("side").value;
+
   if(game.turn()!==human) return;
 
   const piece=game.get(square);
+
   if(!selected){
+
     if(piece && piece.color===human){
       selected=square;
       render();
     }
+
     return;
   }
 
   if(piece && piece.color===human){
+
     selected=square;
     render();
+
     return;
   }
 
-  let move=game.move({from:selected,to:square,promotion:"q"});
+  const move=game.move({
+    from:selected,
+    to:square,
+    promotion:"q"
+  });
+
   selected=null;
+
   if(move){
+
     render();
-    if(!game.game_over()) computerMove();
-  }else render();
+
+    if(!game.game_over()){
+      computerMove();
+    }
+
+  }else{
+
+    render();
+  }
 }
+
 
 function updateStatus(){
-  if(game.in_checkmate()) statusBox.textContent="Мат! Партия окончена.";
-  else if(game.in_draw()) statusBox.textContent="Ничья. Партия окончена.";
-  else if(game.in_check()) statusBox.textContent="Шах!";
-  else statusBox.textContent=game.turn()==="w"?"Ход белых":"Ход чёрных";
+
+  if(game.in_checkmate()){
+    statusBox.textContent="Мат! Партия окончена.";
+  }
+
+  else if(game.in_draw()){
+    statusBox.textContent="Ничья. Партия окончена.";
+  }
+
+  else if(game.in_check()){
+    statusBox.textContent="Шах!";
+  }
+
+  else{
+    statusBox.textContent=
+      game.turn()==="w"?"Ход белых":"Ход чёрных";
+  }
 }
 
+
 function updateHistory(){
+
   const moves=game.history();
-  if(!moves.length){historyBox.textContent="Партия ещё не началась";return;}
-  let out="";
-  for(let i=0;i<moves.length;i+=2){
-    out+=(Math.floor(i/2)+1)+". "+moves[i]+" "+(moves[i+1]||"")+"<br>";
+
+  if(!moves.length){
+
+    historyBox.textContent="Партия ещё не началась";
+
+    return;
   }
+
+  let out="";
+
+  for(let i=0;i<moves.length;i+=2){
+
+    out+=(Math.floor(i/2)+1)+". "+
+      moves[i]+" "+
+      (moves[i+1]||"")+"<br>";
+  }
+
   historyBox.innerHTML=out;
+
   historyBox.scrollTop=historyBox.scrollHeight;
 }
 
+
 async function computerMove(){
+
   if(game.game_over()) return;
+
   thinking=true;
+
   statusBox.textContent="Компьютер думает…";
 
   try{
+
     const depth=document.getElementById("level").value;
+
     const fen=encodeURIComponent(game.fen());
-    const url="https://stockfish.online/api/s/v2.php?fen="+fen+"&depth="+depth;
+
+    const url=
+      "https://stockfish.online/api/s/v2.php?fen="+
+      fen+"&depth="+depth;
+
     const response=await fetch(url);
+
     const data=await response.json();
 
-    if(!data.success || !data.bestmove) throw new Error("Engine unavailable");
+    if(!data.success || !data.bestmove){
+      throw new Error("Engine unavailable");
+    }
 
-    const match=data.bestmove.match(/[a-h][1-8][a-h][1-8][qrbn]?/);
-    if(!match) throw new Error("Invalid move");
+    const match=data.bestmove.match(
+      /[a-h][1-8][a-h][1-8][qrbn]?/
+    );
+
+    if(!match){
+      throw new Error("Invalid move");
+    }
 
     const uci=match[0];
+
     const move=game.move({
       from:uci.slice(0,2),
       to:uci.slice(2,4),
       promotion:uci[4]||"q"
     });
-    if(!move) throw new Error("Illegal move");
 
-  }catch(error){
+    if(!move){
+      throw new Error("Illegal move");
+    }
+
+  }
+
+  catch(error){
+
     const moves=game.moves();
+
     if(moves.length){
-      const fallback=moves[Math.floor(Math.random()*moves.length)];
+
+      const fallback=
+        moves[Math.floor(Math.random()*moves.length)];
+
       game.move(fallback);
+
     }else{
-      statusBox.textContent="Не удалось получить ответ компьютера";
+
+      statusBox.textContent=
+        "Не удалось получить ответ компьютера";
     }
   }
 
   thinking=false;
+
   render();
 }
+
 
 function newGame(){
+
   game.reset();
+
   selected=null;
   thinking=false;
+
   const side=document.getElementById("side").value;
+
   render();
-  if(side==="b") computerMove();
+
+  if(side==="b"){
+    computerMove();
+  }
 }
+
 
 function undoMove(){
+
   if(thinking) return;
+
   game.undo();
-  if(game.history().length && game.turn()!==document.getElementById("side").value)
+
+  if(
+    game.history().length &&
+    game.turn()!==document.getElementById("side").value
+  ){
     game.undo();
+  }
+
   selected=null;
+
   render();
 }
+
 
 function flipBoard(){
+
   flipped=!flipped;
+
   render();
 }
 
-document.getElementById("side").addEventListener("change",newGame);
+
+document
+  .getElementById("side")
+  .addEventListener("change",newGame);
+
 render();
+
 </script>
+
 </body>
 </html>
