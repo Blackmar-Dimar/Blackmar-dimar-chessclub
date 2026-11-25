@@ -28,9 +28,31 @@ button:active{opacity:.7}
   container-type:inline-size;
 }
 .square{aspect-ratio:1;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative}
-.piece-svg{display:block;width:88%;height:92%;position:relative;z-index:1;overflow:visible;--piece-fill:#fff;--piece-outline:#171717;--piece-accent:#171717;--piece-cross-outline:#eee3ca}
-.piece-svg.black{--piece-fill:#171717;--piece-outline:#eee3ca;--piece-accent:#eee3ca;--piece-cross-outline:#171717}
-.piece-svg.white{--piece-fill:#fff;--piece-outline:#171717;--piece-accent:#171717;--piece-cross-outline:#eee3ca}
+.piece-svg{
+  display:block;
+  width:100%;
+  height:100%;
+  position:relative;
+  z-index:1;
+  overflow:visible;
+  --piece-fill:#fff;
+  --piece-outline:#171717;
+  --piece-accent:#171717;
+  --piece-cross-outline:#eee3ca;
+  --piece-highlight:#777;
+}
+.piece-svg.black{
+  --piece-fill:#171717;
+  --piece-outline:#eee3ca;
+  --piece-accent:#eee3ca;
+  --piece-cross-outline:#171717;
+}
+.piece-svg.white{
+  --piece-fill:#fff;
+  --piece-outline:#171717;
+  --piece-accent:#171717;
+  --piece-cross-outline:#eee3ca;
+}
 .coord{position:absolute;display:block;font-family:Arial,sans-serif;font-size:10px;font-weight:600;line-height:1;color:#eee3ca;pointer-events:none;z-index:5}
 .coord.rank{left:-15px;top:50%;transform:translateY(-50%);width:10px;text-align:center}
 .coord.file{left:50%;bottom:-17px;transform:translateX(-50%)}
@@ -76,65 +98,79 @@ button:active{opacity:.7}
   <div class="small">Компьютер использует шахматный движок Stockfish Online.</div>
 </div>
 
-<!-- Векторные фигуры: один и тот же силуэт для обеих сторон, контрастные детали меняют цвет автоматически. -->
+<!-- SVG-комплект шахматных фигур -->
 <svg aria-hidden="true" width="0" height="0" style="position:absolute;overflow:hidden">
 <defs>
+
+  <!-- Пешка -->
   <symbol id="piece-p" viewBox="0 0 100 100">
-    <circle cx="50" cy="18" r="12.5" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2"/>
-    <path d="M43 31 C42 39 38 45 34 52 L24 73 Q22 78 29 80 H71 Q78 78 76 73 L66 52 C62 45 58 39 57 31 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2" stroke-linejoin="round"/>
-    <path d="M37 34 Q50 37 63 34 M35 40 Q50 43 65 40" fill="none" stroke="var(--piece-accent)" stroke-width="2.8" stroke-linecap="round"/>
-    <path d="M24 77 Q50 74 76 77 L78 84 Q78 88 73 88 H27 Q22 88 22 84 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2" stroke-linejoin="round"/>
-    <path d="M25 79 Q50 77 75 79 M25 84 Q50 82 75 84" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="50" cy="17" r="13.2" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2"/>
+    <path d="M44 30 C43 35 41 39 37 44 C34 48 30 54 28 61 L22 75 Q20 80 27 81 H73 Q80 80 78 75 L72 61 C70 54 66 48 63 44 C59 39 57 35 56 30 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2" stroke-linejoin="round"/>
+    <path d="M39 34 Q50 37 61 34 L64 39 Q50 42 36 39 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="2.5"/>
+    <path d="M35 42 Q50 45 65 42" fill="none" stroke="var(--piece-accent)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M25 74 Q50 71 75 74 L79 81 Q80 85 74 86 H26 Q20 85 21 81 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.1"/>
+    <path d="M23 79 Q50 76 77 79" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M20 86 Q50 83 80 86 L82 92 Q82 96 76 96 H24 Q18 96 18 92 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2"/>
+    <path d="M23 90 Q50 88 77 90" fill="none" stroke="var(--piece-accent)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M43 8 Q50 4 57 9" fill="none" stroke="var(--piece-highlight)" stroke-width="1.7" stroke-linecap="round" opacity=".55"/>
   </symbol>
 
+  <!-- Ладья -->
   <symbol id="piece-r" viewBox="0 0 100 100">
-    <path d="M22 12 H34 V22 H43 V12 H57 V22 H66 V12 H78 V32 Q78 38 72 40 L69 73 H31 L28 40 Q22 38 22 32 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.4" stroke-linejoin="round"/>
-    <path d="M31 43 H69 M30 53 H70 M31 63 H69" fill="none" stroke="var(--piece-accent)" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M31 43 V53 M48 43 V53 M65 43 V53 M40 53 V63 M58 53 V63" fill="none" stroke="var(--piece-accent)" stroke-width="1.8" stroke-linecap="round"/>
-    <path d="M27 73 Q50 69 73 73 L78 81 Q80 86 73 87 H27 Q20 86 22 81 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.4"/>
-    <path d="M25 79 Q50 76 75 79" fill="none" stroke="var(--piece-accent)" stroke-width="2.6" stroke-linecap="round"/>
-    <path d="M21 89 H79 L82 94 H18 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M15 9 H31 V21 H40 V9 H60 V21 H69 V9 H85 V30 Q85 36 79 39 L74 75 H26 L21 39 Q15 36 15 30 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M18 30 H82 M23 38 H77" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M29 43 H71 M27 54 H73 M26 65 H74" fill="none" stroke="var(--piece-accent)" stroke-width="2.1" stroke-linecap="round"/>
+    <path d="M38 43 V54 M62 43 V54 M31 54 V65 M50 54 V65 M69 54 V65" fill="none" stroke="var(--piece-accent)" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M25 74 Q50 70 75 74 L80 81 Q82 86 75 87 H25 Q18 86 20 81 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.4"/>
+    <path d="M22 80 Q50 76 78 80" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M16 88 Q50 84 84 88 L86 94 Q86 97 80 97 H20 Q14 97 14 94 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2"/>
   </symbol>
 
+  <!-- Конь -->
   <symbol id="piece-n" viewBox="0 0 100 100">
-    <path d="M22 84 Q25 73 31 64 Q35 57 33 49 Q30 39 37 29 Q42 22 49 15 L55 29 Q64 27 71 36 Q82 49 77 66 L75 82 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.4" stroke-linejoin="round"/>
-    <path d="M36 32 Q43 36 49 37 M37 43 Q44 46 51 44 M43 53 Q52 57 60 54 M50 63 Q60 66 72 61" fill="none" stroke="var(--piece-accent)" stroke-width="2.3" stroke-linecap="round"/>
-    <path d="M49 15 Q55 8 60 17 L57 31" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3" stroke-linejoin="round"/>
-    <circle cx="43" cy="39" r="2.3" fill="var(--piece-accent)"/>
-    <path d="M22 83 Q50 79 78 83 L81 90 Q81 94 75 94 H25 Q19 94 19 90 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.4"/>
-    <path d="M23 87 Q50 84 77 87" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
-    <!-- Контрастная грива вдоль затылка -->
-    <path d="M59 27 Q69 31 75 41 M62 38 L78 48 M65 50 L78 58 M66 62 L76 68" fill="none" stroke="var(--piece-accent)" stroke-width="3.1" stroke-linecap="round"/>
+    <path d="M22 82 Q24 73 31 65 Q36 59 35 52 L29 45 Q27 39 32 33 L39 25 L44 12 Q48 8 52 15 L56 25 Q68 24 75 35 Q83 48 77 63 Q73 72 72 82 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M39 26 Q47 29 53 28 Q64 28 71 38 Q76 47 73 58" fill="none" stroke="var(--piece-highlight)" stroke-width="2" opacity=".55" stroke-linecap="round"/>
+    <path d="M31 43 Q39 46 47 43 L44 51 Q37 54 31 49 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="2.2"/>
+    <path d="M39 39 Q43 36 47 39" fill="none" stroke="var(--piece-outline)" stroke-width="2.2" stroke-linecap="round"/>
+    <circle cx="44" cy="35" r="2.5" fill="var(--piece-accent)"/>
+    <path d="M51 18 Q56 25 59 32 M58 29 L68 39 M62 40 L75 49 M64 52 L76 59 M63 64 L73 69" fill="none" stroke="var(--piece-accent)" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M23 81 Q50 77 77 81 L81 88 Q82 93 75 94 H25 Q18 93 19 88 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.4"/>
+    <path d="M22 86 Q50 82 78 86" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M18 93 H82 L84 97 H16 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="2.6"/>
   </symbol>
 
+  <!-- Слон -->
   <symbol id="piece-b" viewBox="0 0 100 100">
-    <circle cx="50" cy="14" r="7" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="2.4"/>
-    <path d="M50 22 C34 33 29 48 34 62 Q38 72 50 74 Q62 72 66 62 C71 48 66 33 50 22 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.4"/>
-    <path d="M56 31 L44 49 H54 L45 65 L62 45 H52 Z" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="1.1" stroke-linejoin="round"/>
-    <path d="M35 73 Q50 70 65 73 L70 79 Q71 84 65 85 H35 Q29 84 30 79 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2"/>
-    <path d="M24 88 Q35 83 42 86 Q50 89 58 86 Q67 83 76 88 L83 92 Q85 96 77 97 H23 Q15 96 17 92 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2"/>
-    <path d="M27 89 Q50 86 73 89" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="50" cy="11" r="7.5" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="2.4"/>
+    <path d="M50 20 C36 27 27 42 29 57 Q31 72 50 76 Q69 72 71 57 C73 42 64 27 50 20 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.5"/>
+    <path d="M55 30 L43 49 H53 L44 66 L64 43 H53 Z" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="1.2" stroke-linejoin="miter"/>
+    <path d="M37 35 Q32 49 37 61" fill="none" stroke="var(--piece-highlight)" stroke-width="2" opacity=".5" stroke-linecap="round"/>
+    <path d="M34 74 Q50 70 66 74 L72 81 Q73 86 66 87 H34 Q27 86 28 81 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.3"/>
+    <path d="M22 88 Q32 83 41 86 Q50 90 59 86 Q68 83 78 88 L84 93 Q85 97 77 97 H23 Q15 97 16 93 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.3"/>
+    <path d="M25 89 Q50 86 75 89" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
   </symbol>
 
+  <!-- Ферзь -->
   <symbol id="piece-q" viewBox="0 0 100 100">
-    <path d="M25 31 L34 61 Q50 67 66 61 L75 31 L64 52 L58 24 L50 50 L42 24 L36 52 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.3" stroke-linejoin="round"/>
-    <path d="M31 65 Q50 69 69 65 L72 74 Q50 80 28 74 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2"/>
-    <path d="M28 80 Q50 76 72 80 L75 88 Q50 94 25 88 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2"/>
-    <path d="M31 83 Q50 80 69 83" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="25" cy="27" r="6.5" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="2"/>
-    <circle cx="42" cy="19" r="6.5" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="2"/>
-    <circle cx="50" cy="13" r="6.5" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="2"/>
-    <circle cx="58" cy="19" r="6.5" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="2"/>
-    <circle cx="75" cy="27" r="6.5" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="2"/>
+    <path d="M19 29 L30 61 Q50 69 70 61 L81 29 L66 48 L59 23 L50 49 L41 23 L34 48 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.4" stroke-linejoin="round"/>
+    <path d="M30 63 Q50 70 70 63 L74 73 Q50 81 26 73 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2"/>
+    <path d="M25 78 Q50 73 75 78 L79 87 Q50 95 21 87 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.3"/>
+    <path d="M27 81 Q50 77 73 81" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="19" cy="25" r="6.8" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="2.2"/>
+    <circle cx="40" cy="18" r="6.8" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="2.2"/>
+    <circle cx="50" cy="11" r="6.8" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="2.2"/>
+    <circle cx="60" cy="18" r="6.8" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="2.2"/>
+    <circle cx="81" cy="25" r="6.8" fill="var(--piece-accent)" stroke="var(--piece-outline)" stroke-width="2.2"/>
   </symbol>
 
+  <!-- Король -->
   <symbol id="piece-k" viewBox="0 0 100 100">
-    <path d="M50 7 V32 M39 18 H61" fill="none" stroke="var(--piece-accent)" stroke-width="7" stroke-linecap="square"/>
-    <path d="M50 7 V32 M39 18 H61" fill="none" stroke="var(--piece-cross-outline)" stroke-width="1.2" stroke-linecap="square"/>
-    <path d="M50 34 C39 28 25 33 23 48 Q22 62 36 69 Q43 73 50 67 Q57 73 64 69 Q78 62 77 48 C75 33 61 28 50 34 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.4"/>
-    <path d="M31 72 Q50 77 69 72 L73 80 Q50 87 27 80 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2"/>
-    <path d="M27 85 Q50 81 73 85 L77 92 Q50 98 23 92 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.2"/>
-    <path d="M30 87 Q50 84 70 87" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M50 5 V31 M38 17 H62" fill="none" stroke="var(--piece-accent)" stroke-width="7.5" stroke-linecap="square"/>
+    <path d="M50 5 V31 M38 17 H62" fill="none" stroke="var(--piece-cross-outline)" stroke-width="1.25" stroke-linecap="square"/>
+    <path d="M50 32 C43 27 33 27 27 34 Q18 44 24 57 Q29 69 43 72 Q50 74 50 67 Q50 74 57 72 Q71 69 76 57 Q82 44 73 34 C67 27 57 27 50 32 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.5"/>
+    <path d="M29 73 Q50 78 71 73 L76 81 Q50 89 24 81 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.3"/>
+    <path d="M23 87 Q50 82 77 87 L81 94 Q50 99 19 94 Z" fill="var(--piece-fill)" stroke="var(--piece-outline)" stroke-width="3.3"/>
+    <path d="M27 89 Q50 85 73 89" fill="none" stroke="var(--piece-accent)" stroke-width="2.5" stroke-linecap="round"/>
   </symbol>
 </defs>
 </svg>
