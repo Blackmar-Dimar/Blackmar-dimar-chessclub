@@ -205,65 +205,69 @@ button:active{opacity:.7}
 <defs>
 
 <!-- ПЕШКА -->
-
 <symbol id="piece-p" viewBox="0 0 100 100">
 
-  <!-- Голова -->
-  <circle cx="50" cy="18" r="13"
+  <!-- Округлая голова -->
+  <circle cx="50" cy="18" r="12.5"
     fill="var(--fill)"
     stroke="#080808"
-    stroke-width="5"/>
+    stroke-width="4.5"/>
 
-  <path d="M42 10 Q50 5 58 11"
+  <!-- Блик на голове -->
+  <path d="M43 11 Q50 7 56 12"
     fill="none"
     stroke="var(--shine)"
     stroke-width="2"
     stroke-linecap="round"/>
 
-  <!-- Шейка -->
+  <!-- Основной корпус и расширяющиеся плечи -->
   <path d="
     M43 30
-    C43 37 39 43 34 49
-    C30 55 27 63 23 73
-    Q22 78 29 79
-    H71
-    Q78 78 77 73
-    C73 63 70 55 66 49
-    C61 43 57 37 57 30
+    C43 35 40 39 36 43
+    C31 49 29 57 26 65
+    L22 76
+    Q21 81 28 82
+    H72
+    Q79 81 78 76
+    L74 65
+    C71 57 69 49 64 43
+    C60 39 57 35 57 30
     Z"
     fill="var(--fill)"
     stroke="#080808"
-    stroke-width="5"
+    stroke-width="4.5"
     stroke-linejoin="round"/>
 
-  <!-- Два кольца шейки -->
-  <path d="M38 34 Q50 38 62 34"
+  <!-- Верхняя кайма шейки -->
+  <path d="M39 34 Q50 38 61 34"
     fill="none"
-    stroke="#080808"
-    stroke-width="5"
+    stroke="var(--detail)"
+    stroke-width="3.2"
     stroke-linecap="round"/>
 
+  <!-- Нижняя кайма шейки -->
   <path d="M37 41 Q50 45 63 41"
     fill="none"
     stroke="var(--detail)"
-    stroke-width="3"
+    stroke-width="3.2"
     stroke-linecap="round"/>
 
-  <!-- Верхняя кайма основания -->
+  <!-- Верхняя часть основания -->
   <path d="
-    M25 72
-    Q50 67 75 72
-    L80 79
+    M25 73
+    Q50 69 75 73
+    L79 79
     Q81 84 74 85
     H26
-    Q19 84 20 79
+    Q19 84 21 79
     Z"
     fill="var(--fill)"
     stroke="#080808"
-    stroke-width="5"
+    stroke-width="4.5"
     stroke-linejoin="round"/>
 
-  <path d="M23 77 Q50 73 77 77"
+  <!-- Контрастная линия основания -->
+  <path d="M23 78 Q50 74 77 78"
     fill="none"
     stroke="var(--detail)"
     stroke-width="3"
@@ -273,21 +277,24 @@ button:active{opacity:.7}
   <path d="
     M20 85
     Q50 81 80 85
-    L83 92
-    Q83 96 76 96
+    L83 91
+    Q84 96 76 96
     H24
-    Q17 96 17 92
+    Q16 96 17 91
     Z"
     fill="var(--fill)"
     stroke="#080808"
-    stroke-width="5"
+    stroke-width="4.5"
     stroke-linejoin="round"/>
 
-  <path d="M22 90 Q50 87 78 90"
+  <!-- Нижняя контрастная кайма -->
+  <path d="M21 90 Q50 87 79 90"
     fill="none"
     stroke="var(--detail)"
     stroke-width="3"
     stroke-linecap="round"/>
+
+</symbol>
 
 </symbol>
 
