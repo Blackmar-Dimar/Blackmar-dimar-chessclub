@@ -166,10 +166,27 @@ function render(){
       el.className="square "+(dark?"dark":"light");
       el.dataset.square=square;
      if(piece){
-  const pieceEl=document.createElement("span");
-  pieceEl.className="piece "+(piece.color==="w"?"white-piece":"black-piece")+(piece.type==="p"?" pawn":"");
-  pieceEl.textContent=symbols[piece.color+piece.type];
-  el.appendChild(pieceEl);
+  if(piece.type==="p"){
+    const pawn=document.createElementNS("http://www.w3.org/2000/svg","svg");
+    pawn.setAttribute("viewBox","0 0 100 100");
+    pawn.setAttribute("class","piece pawn");
+    pawn.setAttribute("width","100%");
+    pawn.setAttribute("height","100%");
+
+    const shape=document.createElementNS("http://www.w3.org/2000/svg","path");
+    shape.setAttribute("d","M50 12 C39 12 32 21 32 32 C32 39 36 45 42 48 L28 82 Q27 88 34 88 H66 Q73 88 72 82 L58 48 C64 45 68 39 68 32 C68 21 61 12 50 12 Z");
+    shape.setAttribute("fill",piece.color==="w"?"#ffffff":"#171717");
+    shape.setAttribute("stroke",piece.color==="w"?"#26352c":"#eee3ca");
+    shape.setAttribute("stroke-width","3");
+
+    pawn.appendChild(shape);
+    el.appendChild(pawn);
+  }else{
+    const pieceEl=document.createElement("span");
+    pieceEl.className="piece "+(piece.color==="w"?"white-piece":"black-piece");
+    pieceEl.textContent=symbols[piece.color+piece.type];
+    el.appendChild(pieceEl);
+  }
 }
       if(f===files[0]){
   const label=document.createElement("span");
