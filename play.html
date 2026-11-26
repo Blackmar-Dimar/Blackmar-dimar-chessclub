@@ -67,30 +67,23 @@ button:active{opacity:.7}
   justify-content:center;
   cursor:pointer;
   position:relative;
+  min-width:0;
+  min-height:0;
 }
 
-.piece-svg{
+.piece-image{
   display:block;
+  flex:0 0 100%;
   width:100%;
   height:100%;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
   position:relative;
   z-index:1;
-  overflow:visible;
-  --fill:#fff9ed;
-  --detail:#101010;
-  --shine:#fff;
-}
-
-.piece-svg.black{
-  --fill:#151515;
-  --detail:#fff9ed;
-  --shine:#777;
-}
-
-.piece-svg.white{
-  --fill:#fff9ed;
-  --detail:#101010;
-  --shine:#fff;
+  pointer-events:none;
+  user-select:none;
+  -webkit-user-drag:none;
 }
 
 .coord{
@@ -165,7 +158,7 @@ button:active{opacity:.7}
 <div class="panel">
 
   <div class="controls">
-    <select id="level">
+    <select id="level" aria-label="Уровень сложности">
       <option value="1">Начинающий</option>
       <option value="4">Лёгкий</option>
       <option value="8" selected>Средний</option>
@@ -173,23 +166,23 @@ button:active{opacity:.7}
       <option value="15">Эксперт</option>
     </select>
 
-    <select id="side">
+    <select id="side" aria-label="Выбор стороны">
       <option value="w">Играть белыми</option>
       <option value="b">Играть чёрными</option>
     </select>
   </div>
 
-  <div id="status">Подготовка партии</div>
-  <div id="board"></div>
+  <div id="status" aria-live="polite">Подготовка партии</div>
+  <div id="board" role="group" aria-label="Шахматная доска"></div>
 
   <div class="controls">
-    <button onclick="newGame()">Новая партия</button>
-    <button onclick="undoMove()">Отменить ход</button>
-    <button onclick="flipBoard()">Перевернуть доску</button>
+    <button type="button" onclick="newGame()">Новая партия</button>
+    <button type="button" onclick="undoMove()">Отменить ход</button>
+    <button type="button" onclick="flipBoard()">Перевернуть доску</button>
   </div>
 
   <h3>История ходов</h3>
-  <div id="history">Партия ещё не началась</div>
+  <div id="history" aria-live="polite">Партия ещё не началась</div>
 
   <div class="small">
     Компьютер использует шахматный движок Stockfish Online.
@@ -197,497 +190,8 @@ button:active{opacity:.7}
 
 </div>
 
-<!-- НАШ КОМПЛЕКТ SVG-ФИГУР -->
-
-<svg aria-hidden="true" width="0" height="0"
-     style="position:absolute;overflow:hidden">
-
-<defs>
-
-<!-- ПЕШКА -->
-<symbol id="piece-p" viewBox="0 0 100 100">
-
-  <!-- Округлая голова -->
-  <circle cx="50" cy="17" r="13"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="4.2"/>
-
-  <!-- Мягкий блик -->
-  <path d="M43 10 Q50 6 57 11"
-    fill="none"
-    stroke="var(--shine)"
-    stroke-width="2"
-    stroke-linecap="round"/>
-
-  <!-- Шейка и плавные расширяющиеся плечи -->
-  <path d="
-    M44 29
-    C44 34 43 37 39 41
-    C35 45 33 50 32 56
-    C31 62 27 68 23 74
-    Q20 78 25 81
-    Q29 83 35 83
-    H65
-    Q71 83 75 81
-    Q80 78 77 74
-    C73 68 69 62 68 56
-    C67 50 65 45 61 41
-    C57 37 56 34 56 29
-    Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="4.2"
-    stroke-linejoin="round"/>
-
-  <!-- Верхнее кольцо шейки -->
-  <path d="
-    M38 33
-    Q50 37 62 33
-    L64 37
-    Q50 41 36 37
-    Z"
-    fill="var(--fill)"
-    stroke="var(--detail)"
-    stroke-width="2.4"
-    stroke-linejoin="round"/>
-
-  <!-- Нижнее кольцо шейки -->
-  <path d="
-    M36 40
-    Q50 44 64 40
-    L66 44
-    Q50 48 34 44
-    Z"
-    fill="var(--fill)"
-    stroke="var(--detail)"
-    stroke-width="2.4"
-    stroke-linejoin="round"/>
-
-  <!-- Левая линия объёма корпуса -->
-  <path d="M34 54 Q32 64 26 73"
-    fill="none"
-    stroke="var(--shine)"
-    stroke-width="1.8"
-    stroke-linecap="round"
-    opacity=".55"/>
-
-  <!-- Верхняя ступень основания -->
-  <path d="
-    M23 73
-    Q50 68 77 73
-    L82 80
-    Q83 85 75 86
-    H25
-    Q17 85 18 80
-    Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="4.2"
-    stroke-linejoin="round"/>
-
-  <!-- Чёткая внутренняя кайма -->
-  <path d="M22 78 Q50 73 78 78"
-    fill="none"
-    stroke="var(--detail)"
-    stroke-width="2.8"
-    stroke-linecap="round"/>
-
-  <!-- Нижняя широкая платформа -->
-  <path d="
-    M18 86
-    Q50 82 82 86
-    L85 92
-    Q85 97 77 97
-    H23
-    Q15 97 15 92
-    Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="4.2"
-    stroke-linejoin="round"/>
-
-  <!-- Нижняя тонкая кайма -->
-  <path d="M20 91 Q50 87 80 91"
-    fill="none"
-    stroke="var(--detail)"
-    stroke-width="2.8"
-    stroke-linecap="round"/>
-
-</symbol>
-
-<!-- ЛАДЬЯ -->
-
-<symbol id="piece-r" viewBox="0 0 100 100">
-
-  <!-- Зубцы -->
-  <path d="
-    M13 9
-    H30 V22
-    H40 V9
-    H60 V22
-    H70 V9
-    H87 V30
-    Q87 36 80 39
-    L76 75
-    H24
-    L20 39
-    Q13 36 13 30
-    Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="5"
-    stroke-linejoin="round"/>
-
-  <!-- Контрастная внутренняя линия -->
-  <path d="M17 30 H83"
-    fill="none"
-    stroke="var(--detail)"
-    stroke-width="3"/>
-
-  <!-- Кирпичная кладка -->
-  <path d="
-    M26 42 H74
-    M24 51 H76
-    M25 61 H75
-    M29 70 H71
-    M39 42 V51
-    M62 42 V51
-    M31 51 V61
-    M50 51 V61
-    M69 51 V61
-    M40 61 V70
-    M60 61 V70"
-    fill="none"
-    stroke="var(--detail)"
-    stroke-width="2.3"
-    stroke-linecap="round"
-    stroke-linejoin="round"/>
-
-  <!-- Основание -->
-  <path d="
-    M23 74
-    Q50 69 77 74
-    L82 82
-    Q83 87 75 88
-    H25
-    Q17 87 18 82
-    Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="5"/>
-
-  <path d="M21 80 Q50 76 79 80"
-    fill="none"
-    stroke="var(--detail)"
-    stroke-width="3"/>
-
-  <path d="
-    M15 88
-    Q50 83 85 88
-    L87 95
-    Q87 98 80 98
-    H20
-    Q13 98 13 95
-    Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="4"/>
-
-</symbol>
-
-
-<!-- КОНЬ -->
-
-<symbol id="piece-n" viewBox="0 0 100 100">
-
-  <!-- Основной силуэт -->
-  <path d="
-    M22 82
-    Q24 72 32 64
-    Q39 56 34 49
-    Q27 43 30 35
-    L38 25
-    L43 11
-    Q47 5 52 14
-    L57 25
-    Q70 23 78 37
-    Q85 50 78 66
-    Q74 74 74 82
-    Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="5"
-    stroke-linejoin="round"/>
-
-  <!-- Ухо -->
-  <path d="M43 13 Q46 2 52 14 L54 26"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="4"/>
-
-  <!-- Морда -->
-  <path d="
-    M31 39
-    Q39 42 48 39
-    L45 49
-    Q37 54 31 47
-    Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="3"/>
-
-  <!-- Глаз -->
-  <path d="M40 35 Q44 32 48 35"
-    fill="none"
-    stroke="#080808"
-    stroke-width="3"
-    stroke-linecap="round"/>
-
-  <circle cx="44" cy="35" r="2.3"
-    fill="#080808"/>
-
-  <!-- Грива -->
-  <path d="
-    M54 25
-    Q64 29 70 38
-    L62 35
-    M64 38
-    Q75 43 79 51
-    L69 48
-    M68 51
-    Q78 57 77 65
-    L68 61
-    M66 65
-    Q73 70 73 76"
-    fill="none"
-    stroke="var(--detail)"
-    stroke-width="4"
-    stroke-linecap="round"
-    stroke-linejoin="round"/>
-
-  <!-- Основание -->
-  <path d="
-    M23 81
-    Q50 76 77 81
-    L82 89
-    Q83 94 75 95
-    H25
-    Q17 94 18 89
-    Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="5"/>
-
-  <path d="M21 87 Q50 83 79 87"
-    fill="none"
-    stroke="var(--detail)"
-    stroke-width="3"/>
-
-  <path d="M17 94 H83 L85 98 H15 Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="3"/>
-
-</symbol>
-
-
-<!-- СЛОН -->
-
-<symbol id="piece-b" viewBox="0 0 100 100">
-
-  <!-- Шарик -->
-  <circle cx="50" cy="11" r="8"
-    fill="var(--detail)"
-    stroke="#080808"
-    stroke-width="3"/>
-
-  <!-- Основная шапка -->
-  <path d="
-    M50 20
-    C35 27 27 43 29 58
-    Q31 74 50 76
-    Q69 74 71 58
-    C73 43 65 27 50 20
-    Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="5"/>
-
-  <!-- Молния -->
-  <path d="
-    M56 29
-    L43 49
-    H53
-    L43 67
-    L64 43
-    H53
-    Z"
-    fill="var(--detail)"
-    stroke="#080808"
-    stroke-width="1.5"
-    stroke-linejoin="round"/>
-
-  <!-- Основание шапки -->
-  <path d="
-    M34 74
-    Q50 70 66 74
-    L73 81
-    Q74 87 66 88
-    H34
-    Q26 87 27 81
-    Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="5"/>
-
-  <!-- Платформа -->
-  <path d="
-    M22 89
-    Q32 83 42 87
-    Q50 91 58 87
-    Q68 83 78 89
-    L84 94
-    Q85 98 77 98
-    H23
-    Q15 98 16 94
-    Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="5"/>
-
-</symbol>
-
-
-<!-- ФЕРЗЬ -->
-
-<symbol id="piece-q" viewBox="0 0 100 100">
-
-  <!-- Корона -->
-  <path d="
-    M17 29
-    L30 62
-    Q50 70 70 62
-    L83 29
-    L67 49
-    L60 21
-    L50 49
-    L40 21
-    L33 49
-    Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="5"
-    stroke-linejoin="round"/>
-
-  <!-- Пять шариков -->
-  <circle cx="17" cy="25" r="7"
-    fill="var(--detail)" stroke="#080808" stroke-width="3"/>
-  <circle cx="40" cy="17" r="7"
-    fill="var(--detail)" stroke="#080808" stroke-width="3"/>
-  <circle cx="50" cy="10" r="7"
-    fill="var(--detail)" stroke="#080808" stroke-width="3"/>
-  <circle cx="60" cy="17" r="7"
-    fill="var(--detail)" stroke="#080808" stroke-width="3"/>
-  <circle cx="83" cy="25" r="7"
-    fill="var(--detail)" stroke="#080808" stroke-width="3"/>
-
-  <!-- Обод короны -->
-  <path d="
-    M28 64
-    Q50 71 72 64
-    L76 75
-    Q50 83 24 75
-    Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="5"/>
-
-  <path d="M27 72 Q50 78 73 72"
-    fill="none"
-    stroke="var(--detail)"
-    stroke-width="3"/>
-
-  <!-- Основание -->
-  <path d="
-    M23 81
-    Q50 76 77 81
-    L81 91
-    Q50 98 19 91
-    Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="5"/>
-
-</symbol>
-
-
-<!-- КОРОЛЬ -->
-
-<symbol id="piece-k" viewBox="0 0 100 100">
-
-  <!-- Крест -->
-  <path d="M50 5 V32 M39 17 H61"
-    fill="none"
-    stroke="var(--detail)"
-    stroke-width="7"
-    stroke-linecap="square"/>
-
-  <path d="M50 5 V32 M39 17 H61"
-    fill="none"
-    stroke="#080808"
-    stroke-width="1.3"
-    stroke-linecap="square"/>
-
-  <!-- Корона и корпус -->
-  <path d="
-    M50 32
-    C39 25 27 29 23 41
-    Q18 55 29 67
-    Q39 77 50 68
-    Q61 77 71 67
-    Q82 55 77 41
-    C73 29 61 25 50 32
-    Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="5"
-    stroke-linejoin="round"/>
-
-  <!-- Широкий воротник -->
-  <path d="
-    M27 71
-    Q50 79 73 71
-    L79 82
-    Q50 91 21 82
-    Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="5"/>
-
-  <path d="M25 79 Q50 86 75 79"
-    fill="none"
-    stroke="var(--detail)"
-    stroke-width="3"/>
-
-  <!-- Нижняя платформа -->
-  <path d="
-    M19 88
-    Q50 82 81 88
-    L84 95
-    Q50 100 16 95
-    Z"
-    fill="var(--fill)"
-    stroke="#080808"
-    stroke-width="5"/>
-
-</symbol>
-
-</defs>
-</svg>
-
-
 <script>
+"use strict";
 
 const game = new Chess();
 
@@ -695,92 +199,98 @@ const board = document.getElementById("board");
 const statusBox = document.getElementById("status");
 const historyBox = document.getElementById("history");
 
-const SVG_NS = "http://www.w3.org/2000/svg";
+// Все пути ведут к утверждённым PNG-файлам в images/pieces/.
+const PIECE_IMAGES = {
+  wp: "images/pieces/white-pawn.png",
+  wn: "images/pieces/white-knight.png",
+  wb: "images/pieces/white-bishop.png",
+  wr: "images/pieces/white-rook.png",
+  wq: "images/pieces/white-queen.png",
+  wk: "images/pieces/white-king.png",
+  bp: "images/pieces/black-pawn.png",
+  bn: "images/pieces/black-knight.png",
+  bb: "images/pieces/black-bishop.png",
+  br: "images/pieces/black-rook.png",
+  bq: "images/pieces/black-queen.png",
+  bk: "images/pieces/black-king.png"
+};
+
+const PIECE_NAMES = {
+  p: "пешка",
+  n: "конь",
+  b: "слон",
+  r: "ладья",
+  q: "королева",
+  k: "король"
+};
 
 let selected = null;
 let flipped = false;
 let thinking = false;
-
+let engineRequestId = 0;
 
 function createPieceElement(piece){
+  const key = piece.color + piece.type;
+  const imagePath = PIECE_IMAGES[key];
 
-  const svg = document.createElementNS(SVG_NS,"svg");
+  if(!imagePath){
+    throw new Error("Неизвестная шахматная фигура: " + key);
+  }
 
-  svg.setAttribute("viewBox","0 0 100 100");
+  const image = document.createElement("img");
+  image.className = "piece-image";
+  image.src = imagePath;
+  image.alt = (piece.color === "w" ? "Белая " : "Чёрная ") + PIECE_NAMES[piece.type];
+  image.draggable = false;
+  image.decoding = "async";
+  image.loading = "eager";
 
-  svg.setAttribute(
-    "class",
-    "piece-svg "+(piece.color==="w"?"white":"black")
-  );
-
-  svg.setAttribute("role","img");
-
-  const use = document.createElementNS(SVG_NS,"use");
-
-  use.setAttribute("href","#piece-"+piece.type);
-
-  svg.appendChild(use);
-
-  return svg;
+  return image;
 }
 
-
 function render(){
-
-  board.innerHTML="";
+  board.innerHTML = "";
 
   const files = flipped ? "hgfedcba" : "abcdefgh";
   const ranks = flipped ? "12345678" : "87654321";
 
-  for(let r of ranks){
-
-    for(let f of files){
-
-      const square = f+r;
+  for(const r of ranks){
+    for(const f of files){
+      const square = f + r;
       const piece = game.get(square);
-
       const el = document.createElement("div");
+      const dark = (files.indexOf(f) + Number(r)) % 2 === 0;
 
-      const dark = (files.indexOf(f)+Number(r))%2===0;
-
-      el.className="square "+(dark?"dark":"light");
-
-      el.dataset.square=square;
+      el.className = "square " + (dark ? "dark" : "light");
+      el.dataset.square = square;
 
       if(piece){
         el.appendChild(createPieceElement(piece));
       }
 
-      if(f===files[0]){
-
-        const label=document.createElement("span");
-
-        label.className="coord rank";
-        label.textContent=r;
-
+      if(f === files[0]){
+        const label = document.createElement("span");
+        label.className = "coord rank";
+        label.textContent = r;
         el.appendChild(label);
       }
 
-      if(r===ranks[ranks.length-1]){
-
-        const label=document.createElement("span");
-
-        label.className="coord file";
-        label.textContent=f;
-
+      if(r === ranks[ranks.length - 1]){
+        const label = document.createElement("span");
+        label.className = "coord file";
+        label.textContent = f;
         el.appendChild(label);
       }
 
-      if(selected===square){
+      if(selected === square){
         el.classList.add("selected");
       }
 
-      if(selected && game.moves({square:selected,verbose:true}).some(m=>m.to===square)){
+      if(selected && game.moves({square:selected, verbose:true}).some(move => move.to === square)){
         el.classList.add("target");
       }
 
-      el.onclick=()=>clickSquare(square);
-
+      el.onclick = () => clickSquare(square);
       board.appendChild(el);
     }
   }
@@ -789,227 +299,174 @@ function render(){
   updateHistory();
 }
 
-
 function clickSquare(square){
-
   if(thinking || game.game_over()) return;
 
-  const human=document.getElementById("side").value;
+  const human = document.getElementById("side").value;
+  if(game.turn() !== human) return;
 
-  if(game.turn()!==human) return;
-
-  const piece=game.get(square);
+  const piece = game.get(square);
 
   if(!selected){
-
-    if(piece && piece.color===human){
-      selected=square;
+    if(piece && piece.color === human){
+      selected = square;
       render();
     }
-
     return;
   }
 
-  if(piece && piece.color===human){
-
-    selected=square;
+  if(piece && piece.color === human){
+    selected = square;
     render();
-
     return;
   }
 
-  const move=game.move({
-    from:selected,
-    to:square,
-    promotion:"q"
+  const move = game.move({
+    from: selected,
+    to: square,
+    promotion: "q"
   });
 
-  selected=null;
+  selected = null;
 
   if(move){
-
     render();
-
     if(!game.game_over()){
       computerMove();
     }
-
   }else{
-
     render();
   }
 }
 
-
 function updateStatus(){
-
   if(game.in_checkmate()){
-    statusBox.textContent="Мат! Партия окончена.";
-  }
-
-  else if(game.in_draw()){
-    statusBox.textContent="Ничья. Партия окончена.";
-  }
-
-  else if(game.in_check()){
-    statusBox.textContent="Шах!";
-  }
-
-  else{
-    statusBox.textContent=
-      game.turn()==="w"?"Ход белых":"Ход чёрных";
+    statusBox.textContent = "Мат! Партия окончена.";
+  }else if(game.in_draw()){
+    statusBox.textContent = "Ничья. Партия окончена.";
+  }else if(game.in_check()){
+    statusBox.textContent = "Шах!";
+  }else{
+    statusBox.textContent = game.turn() === "w" ? "Ход белых" : "Ход чёрных";
   }
 }
 
-
 function updateHistory(){
-
-  const moves=game.history();
+  const moves = game.history();
 
   if(!moves.length){
-
-    historyBox.textContent="Партия ещё не началась";
-
+    historyBox.textContent = "Партия ещё не началась";
     return;
   }
 
-  let out="";
-
-  for(let i=0;i<moves.length;i+=2){
-
-    out+=(Math.floor(i/2)+1)+". "+
-      moves[i]+" "+
-      (moves[i+1]||"")+"<br>";
+  let output = "";
+  for(let i = 0; i < moves.length; i += 2){
+    output += (Math.floor(i / 2) + 1) + ". " +
+      moves[i] + " " + (moves[i + 1] || "") + "<br>";
   }
 
-  historyBox.innerHTML=out;
-
-  historyBox.scrollTop=historyBox.scrollHeight;
+  historyBox.innerHTML = output;
+  historyBox.scrollTop = historyBox.scrollHeight;
 }
 
-
 async function computerMove(){
-
   if(game.game_over()) return;
 
-  thinking=true;
-
-  statusBox.textContent="Компьютер думает…";
+  const requestId = ++engineRequestId;
+  thinking = true;
+  statusBox.textContent = "Компьютер думает…";
 
   try{
+    const depth = document.getElementById("level").value;
+    const fen = encodeURIComponent(game.fen());
+    const url = "https://stockfish.online/api/s/v2.php?fen=" + fen + "&depth=" + depth;
 
-    const depth=document.getElementById("level").value;
+    const response = await fetch(url);
+    if(!response.ok){
+      throw new Error("Engine HTTP error: " + response.status);
+    }
 
-    const fen=encodeURIComponent(game.fen());
+    const data = await response.json();
 
-    const url=
-      "https://stockfish.online/api/s/v2.php?fen="+
-      fen+"&depth="+depth;
-
-    const response=await fetch(url);
-
-    const data=await response.json();
+    // Игнорируем ответ, если пользователь уже начал новую партию.
+    if(requestId !== engineRequestId) return;
 
     if(!data.success || !data.bestmove){
       throw new Error("Engine unavailable");
     }
 
-    const match=data.bestmove.match(
-      /[a-h][1-8][a-h][1-8][qrbn]?/
-    );
-
+    const match = data.bestmove.match(/[a-h][1-8][a-h][1-8][qrbn]?/);
     if(!match){
       throw new Error("Invalid move");
     }
 
-    const uci=match[0];
-
-    const move=game.move({
-      from:uci.slice(0,2),
-      to:uci.slice(2,4),
-      promotion:uci[4]||"q"
+    const uci = match[0];
+    const move = game.move({
+      from: uci.slice(0, 2),
+      to: uci.slice(2, 4),
+      promotion: uci[4] || "q"
     });
 
     if(!move){
       throw new Error("Illegal move");
     }
+  }catch(error){
+    if(requestId !== engineRequestId) return;
 
-  }
-
-  catch(error){
-
-    const moves=game.moves();
-
+    const moves = game.moves();
     if(moves.length){
-
-      const fallback=
-        moves[Math.floor(Math.random()*moves.length)];
-
+      const fallback = moves[Math.floor(Math.random() * moves.length)];
       game.move(fallback);
-
     }else{
-
-      statusBox.textContent=
-        "Не удалось получить ответ компьютера";
+      statusBox.textContent = "Не удалось получить ответ компьютера";
+    }
+  }finally{
+    if(requestId === engineRequestId){
+      thinking = false;
+      render();
     }
   }
-
-  thinking=false;
-
-  render();
 }
 
-
 function newGame(){
-
+  // Отменяем влияние любого ещё не завершившегося ответа движка.
+  engineRequestId++;
   game.reset();
+  selected = null;
+  thinking = false;
 
-  selected=null;
-  thinking=false;
-
-  const side=document.getElementById("side").value;
-
+  const side = document.getElementById("side").value;
   render();
 
-  if(side==="b"){
+  if(side === "b"){
     computerMove();
   }
 }
 
-
 function undoMove(){
-
   if(thinking) return;
 
   game.undo();
 
   if(
     game.history().length &&
-    game.turn()!==document.getElementById("side").value
+    game.turn() !== document.getElementById("side").value
   ){
     game.undo();
   }
 
-  selected=null;
-
+  selected = null;
   render();
 }
-
 
 function flipBoard(){
-
-  flipped=!flipped;
-
+  flipped = !flipped;
   render();
 }
 
-
-document
-  .getElementById("side")
-  .addEventListener("change",newGame);
+document.getElementById("side").addEventListener("change", newGame);
 
 render();
-
 </script>
 
 </body>
