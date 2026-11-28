@@ -65,4 +65,7 @@ case'on':osc(c,t,440,.07,.05);osc(c,t+.08,660,.1,.055);break;
 case'off':osc(c,t,660,.07,.05);osc(c,t+.08,440,.1,.05);break;
 case'select':osc(c,t,780,.025,.02,'sine',620);break;
 case'invalid':osc(c,t,185,.11,.07,'triangle',125);hiss(c,t,.045,450,.03);break;
-}}</script>
+}
+}catch(e){alert('Браузер не смог воспроизвести звук.')}
+}
+</script>
