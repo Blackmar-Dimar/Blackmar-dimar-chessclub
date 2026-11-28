@@ -1,0 +1,68 @@
+
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blackmar-Dimar sound lab</title>
+<style>
+body{background:#101a16;color:#eee;font:16px Arial;padding:20px;max-width:650px;margin:auto}
+section{background:#1c2a23;padding:16px;border-radius:12px;margin:14px 0}
+h1,h2{color:#d8b66a}
+button,select{display:block;width:100%;padding:13px;margin:7px 0;border:0;border-radius:8px;background:#c6a45d;color:#172019;font-weight:bold}
+p{line-height:1.45;color:#ccc}
+</style>
+<h1>BLACKMAR-DIMAR — звуковая лаборатория</h1>
+<p>Нажимай кнопки и сравнивай звуки. Это отдельная демонстрация; рабочая шахматная игра пока не меняется.</p>
+<section><h2>Шахматные события</h2>
+<button onclick="play('move')">Обычный ход</button>
+<button onclick="play('captureA')">Взятие A — двойной деревянный стук</button>
+<button onclick="play('captureB')">Взятие B — тяжёлый стук</button>
+<button onclick="play('checkA')">Шах A — тревожный сигнал</button>
+<button onclick="play('checkB')">Шах B — низкая угроза</button>
+<button onclick="play('endA')">Завершение A — драматичное</button>
+<button onclick="play('endB')">Завершение B — фатальное</button></section>
+<section><h2>Управление партией</h2>
+<button onclick="play('start')">Новая партия</button>
+<button onclick="play('undo')">Отменить ход</button>
+<button onclick="play('flip')">Поворот доски</button>
+<button onclick="play('side')">Выбор стороны</button></section>
+<section><h2>Настройки и действия</h2>
+<button onclick="play('level')">Изменение сложности</button>
+<button onclick="play('on')">Включить звук</button>
+<button onclick="play('off')">Выключить звук</button>
+<button onclick="play('select')">Выбрать фигуру</button>
+<button onclick="play('invalid')">Недопустимый ход</button></section>
+<section><h2>Проверка переключателей</h2>
+<p>Измени значение — прозвучит соответствующий сигнал.</p>
+<select onchange="play('level')">
+<option>Начинающий</option><option>Лёгкий</option><option selected>Средний</option><option>Сильный</option><option>Эксперт</option>
+</select>
+<select onchange="play('side')">
+<option>Играть белыми</option><option>Играть чёрными</option>
+</select></section>
+<p>Если звук не прозвучал с первого раза, нажми кнопку ещё раз. На iPhone воспроизведение активируется пользовательским нажатием.</p>
+<script>
+let ac;
+function ctx(){if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();return ac}
+function osc(c,t,f,d,g,type='sine',to){let o=c.createOscillator(),v=c.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(to)o.frequency.exponentialRampToValueAtTime(to,t+d);v.gain.setValueAtTime(.0001,t);v.gain.exponentialRampToValueAtTime(g,t+.006);v.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(v);v.connect(c.destination);o.start(t);o.stop(t+d+.02)}
+function hiss(c,t,d,cut,g){let n=Math.floor(c.sampleRate*d),b=c.createBuffer(1,n,c.sampleRate),a=b.getChannelData(0);for(let i=0;i<n;i++)a[i]=(Math.random()*2-1)*(1-i/n);let s=c.createBufferSource(),f=c.createBiquadFilter(),v=c.createGain();s.buffer=b;f.type='lowpass';f.frequency.value=cut;v.gain.setValueAtTime(g,t);v.gain.exponentialRampToValueAtTime(.0001,t+d);s.connect(f);f.connect(v);v.connect(c.destination);s.start(t);s.stop(t+d+.01)}
+function wood(c,t,w=1){hiss(c,t,.10,1100,.12*w);osc(c,t,145,.16,.11*w,'triangle',90);osc(c,t+.005,235,.08,.04*w,'sine',170)}
+function click(c,t,f=560){osc(c,t,f,.045,.035,'sine',f*.75);hiss(c,t,.018,2200,.012)}
+function play(k){try{let c=ctx(),t=c.currentTime+.03;switch(k){
+case'move':wood(c,t,1.1);break;
+case'captureA':wood(c,t,1.2);wood(c,t+.11,.6);break;
+case'captureB':wood(c,t,1.5);hiss(c,t+.075,.13,650,.12);osc(c,t+.08,105,.22,.10,'triangle',60);break;
+case'checkA':osc(c,t,118,.23,.12,'triangle',154);osc(c,t+.19,146,.29,.10,'triangle',112);hiss(c,t+.18,.12,500,.035);break;
+case'checkB':osc(c,t,92,.28,.13,'sawtooth',78);osc(c,t+.22,124,.32,.11,'triangle',96);osc(c,t+.43,104,.24,.08,'sine',82);break;
+case'endA':hiss(c,t,.22,450,.18);osc(c,t,82,.62,.18,'sine',38);osc(c,t+.18,164,.38,.08,'triangle',82);osc(c,t+.48,110,.55,.09,'sine',48);break;
+case'endB':hiss(c,t,.3,300,.22);osc(c,t,58,.9,.22,'triangle',31);osc(c,t+.12,87,.72,.11,'sine',43);osc(c,t+.42,65,.78,.13,'sine',32);hiss(c,t+.55,.4,220,.07);break;
+case'start':osc(c,t,330,.12,.07,'triangle',440);osc(c,t+.12,440,.18,.08,'triangle',587);break;
+case'undo':osc(c,t,390,.13,.06,'triangle',230);hiss(c,t,.07,750,.035);break;
+case'flip':hiss(c,t,.14,1600,.05);osc(c,t,300,.2,.04,'sine',520);break;
+case'side':click(c,t,720);break;
+case'level':click(c,t,540);break;
+case'on':osc(c,t,440,.07,.05);osc(c,t+.08,660,.1,.055);break;
+case'off':osc(c,t,660,.07,.05);osc(c,t+.08,440,.1,.05);break;
+case'select':osc(c,t,780,.025,.02,'sine',620);break;
+case'invalid':osc(c,t,185,.11,.07,'triangle',125);hiss(c,t,.045,450,.03);break;
+}}</script>
